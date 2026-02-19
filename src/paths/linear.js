@@ -146,9 +146,9 @@ export function linear(opts) {
 
 			if (!series.spanGaps) { // skip in mode: 2?
 			//	console.time('gaps');
-				let gaps = [];
-
-				hasGap && gaps.push(...findGaps(dataX, dataY, idx0, idx1, dir, pixelForX, alignGaps));
+				let gaps = hasGap
+					? findGaps(dataX, dataY, idx0, idx1, dir, pixelForX, alignGaps)
+					: [];
 
 			//	console.timeEnd('gaps');
 

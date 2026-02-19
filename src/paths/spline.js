@@ -63,9 +63,7 @@ export function splineInterp(interp, opts) {
 
 			if (!series.spanGaps) {
 			//	console.time('gaps');
-				let gaps = [];
-
-				gaps.push(...findGaps(dataX, dataY, idx0, idx1, dir, pixelForX, alignGaps));
+				let gaps = findGaps(dataX, dataY, idx0, idx1, dir, pixelForX, alignGaps)
 
 			//	console.timeEnd('gaps');
 
