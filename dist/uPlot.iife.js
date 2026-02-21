@@ -2565,9 +2565,7 @@ var uPlot = (function () {
 
 				if (!series.spanGaps) { // skip in mode: 2?
 				//	console.time('gaps');
-					let gaps = [];
-
-					hasGap && gaps.push(...findGaps(dataX, dataY, idx0, idx1, dir, pixelForX, alignGaps));
+					let gaps = hasGap ? findGaps(dataX, dataY, idx0, idx1, dir, pixelForX, alignGaps) : [];
 
 				//	console.timeEnd('gaps');
 
@@ -2619,6 +2617,8 @@ var uPlot = (function () {
 
 				const dir = scaleX.dir * (scaleX.ori == 0 ? 1 : -1);
 
+				let hasGap = false;
+
 				let prevYPos  = pixelForY(dataY[dir == 1 ? idx0 : idx1]);
 				let firstXPos = pixelForX(dataX[dir == 1 ? idx0 : idx1]);
 				let prevXPos = firstXPos;
@@ -2635,8 +2635,12 @@ var uPlot = (function () {
 				for (let i = dir == 1 ? idx0 : idx1; i >= idx0 && i <= idx1; i += dir) {
 					let yVal1 = dataY[i];
 
-					if (yVal1 == null)
+					if (yVal1 == null) {
+						if (yVal1 === null)
+							hasGap = true;
+
 						continue;
+					}
 
 					let x1 = pixelForX(dataX[i]);
 					let y1 = pixelForY(yVal1);
@@ -2673,9 +2677,7 @@ var uPlot = (function () {
 
 				if (!series.spanGaps) {
 				//	console.time('gaps');
-					let gaps = [];
-
-					gaps.push(...findGaps(dataX, dataY, idx0, idx1, dir, pixelForX, alignGaps));
+					let gaps = hasGap ? findGaps(dataX, dataY, idx0, idx1, dir, pixelForX, alignGaps) : [];
 
 				//	console.timeEnd('gaps');
 
@@ -2991,6 +2993,8 @@ var uPlot = (function () {
 				let xCoords = [];
 				let yCoords = [];
 
+				let hasGap = false;
+
 				for (let i = dir == 1 ? idx0 : idx1; i >= idx0 && i <= idx1; i += dir) {
 					let yVal = dataY[i];
 
@@ -3001,6 +3005,8 @@ var uPlot = (function () {
 						xCoords.push(prevXPos = xPos);
 						yCoords.push(pixelForY(dataY[i]));
 					}
+					else if (yVal === null)
+						hasGap = true;
 				}
 
 				const _paths = {stroke: interp(xCoords, yCoords, moveTo, lineTo, bezierCurveTo, pxRound), fill: null, clip: null, band: null, gaps: null, flags: BAND_CLIP_FILL};
@@ -3020,9 +3026,7 @@ var uPlot = (function () {
 
 				if (!series.spanGaps) {
 				//	console.time('gaps');
-					let gaps = [];
-
-					gaps.push(...findGaps(dataX, dataY, idx0, idx1, dir, pixelForX, alignGaps));
+					let gaps = hasGap ? findGaps(dataX, dataY, idx0, idx1, dir, pixelForX, alignGaps) : [];
 
 				//	console.timeEnd('gaps');
 
