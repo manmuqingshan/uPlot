@@ -3280,6 +3280,8 @@ function uPlot(opts, data, then) {
 
 	opts = copy(opts);
 
+	const usePathCache = opts.cache ?? true;
+
 	const pxAlign = +ifNull(opts.pxAlign, 1);
 
 	const pxRound = pxRoundGen(pxAlign);
@@ -5231,14 +5233,19 @@ function uPlot(opts, data, then) {
 		viaAutoScaleX = false;
 
 		queuedCommit = false;
+
+		if (!usePathCache)
+			clearPathCache();
 	}
 
-	self.clearCache = () => {
+	function clearPathCache() {
 		series.forEach((s, i) => {
 			if (i > 0)
 				s._paths = null;
 		});
-	};
+	}
+
+	self.clearCache = clearPathCache;
 
 	self.redraw = (rebuildPaths, recalcAxes) => {
 		shouldConvergeSize = recalcAxes || false;

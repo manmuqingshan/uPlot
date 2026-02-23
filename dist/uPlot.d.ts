@@ -414,6 +414,9 @@ declare namespace uPlot {
 		hooks?: Hooks.Arrays;
 
 		plugins?: Plugin[];
+
+		// controls whether canvas path cache is auto-cleared after every draw call (see caveats of clearCache() above)
+		cache?: boolean; // true
 	}
 
 	export interface Focus {
